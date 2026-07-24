@@ -33,11 +33,7 @@ function filterByQuery(list, query) {
 
 function validateBody(body) {
   const { name, level } = body;
-
-  const bodyAttributeLength = Object.Keys(body).length;
-
-  console.log("validateBody", name, level, bodyAttributeLength);
-  const isValidate = name && level && bodyAttributeLength !== 0;
+  const isValidate = name && level;
 
   return isValidate
     ? { valid: true }
@@ -91,13 +87,16 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const { valid, error } = validateBody(req.body);
-  console.log(req.body, valid, error);
+
   if (valid) {
-    members.push(req.body);
-    return res.status(201).json({
+    const newMember = {
       id: nextId,
       ...req.body,
-    });
+    };
+    members.push(newMember);
+    nextId++;
+
+    return res.status(201).json(newMember);
   }
   res.status(400).json({
     error,
