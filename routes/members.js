@@ -21,7 +21,6 @@ let nextId = members.length + 1;
 // - 任務二的 GET / 會使用到這個函式
 
 function filterByQuery(list, query) {
-  //   console.log(query.level ? list.filter((item) => item.level === query.level) : list)
   return query.level ? list.filter((item) => item.level === query.level) : list;
 }
 
