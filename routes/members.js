@@ -31,7 +31,8 @@ function filterByQuery(list, query) {
 // - 任務三的 POST / 會使用到這個函式
 
 function validateBody(body) {
-  const { name, level } = body;
+  // 加上 (body || {}) 防止傳入 null
+  const { name, level } = body || {};
   const isValidate = name && level;
 
   return isValidate
@@ -89,11 +90,10 @@ router.post("/", (req, res) => {
 
   if (valid) {
     const newMember = {
-      id: nextId,
+      id: nextId++,
       ...req.body,
     };
     members.push(newMember);
-    nextId++;
 
     return res.status(201).json(newMember);
   }
