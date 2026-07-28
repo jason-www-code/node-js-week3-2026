@@ -31,8 +31,11 @@ function filterByQuery(list, query) {
 // - 任務三的 POST / 會使用到這個函式
 
 function validateBody(body) {
-  // 加上 (body || {}) 防止傳入 null
-  const { name, level } = body || {};
+  if (!body || typeof body !== "object") {
+    return { valid: false, error: "無效的 Request Body" };
+  }
+
+  const { name, level } = body;
   const isValidate = name && level;
 
   return isValidate
